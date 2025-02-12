@@ -1,45 +1,57 @@
-# DevOps Lab - ALB Tasks 1 & 2 🚀
+# DevOps Lab Repository
 
-Welcome to my **DevOps Lab Repository**! This repo contains solutions for various tasks related to GitHub, CI/CD automation, and application deployment. Let's get started! 🎯
+## Lab 03: Git & GitHub on EC2 Ubuntu Instance
+
+This repository contains the tasks for my DevOps lab, completed using an EC2 Ubuntu instance. Below are the steps I followed to set up Git, deploy an application, and automate deployments using GitHub Actions.
 
 ---
-## 🏗 Lab 03 - Setting Up Git and Deploying an App
 
-### Step 1: Create a GitHub Account 🦸‍♂️
-If you don't already have a GitHub account, create one at [GitHub](https://github.com/).
+## 🔹 Setting Up Git on EC2 Ubuntu Instance
 
-### Step 2: Application Development 🖥️
-1. Create a folder to store your application.
-2. Create a Python script:
-   ```bash
-   nano app.py
-   ```
-3. Add the following content:
-   ```python
-   def main():
-       print("Hello, World!")
-
-   if __name__ == "__main__":
-       main()
-   ```
-4. Save and exit (Ctrl + X, then Y).
-5. Run the application to test it:
-   ```bash
-   python app.py
-   ```
-
-### Step 3: Install Git on Ubuntu 🐧
+### Step 1: Update and Install Git
 ```bash
 sudo apt update
 sudo apt install git
 ```
-Check the installation:
+Verify installation:
 ```bash
 git --version
 ```
 
-### Step 4: Create a `.gitignore` File 📂
+### Step 2: Configure Git
 ```bash
+git config --global user.name "Saad"
+git config --global user.email "your-email@example.com"
+```
+
+---
+
+## 🔹 Application Development & Deployment
+
+### Step 1: Create the Application
+Inside the home directory:
+```bash
+mkdir dnetflix-task && cd dnetflix-task
+nano app.py
+```
+Paste the following:
+```python
+def main():
+    print("Hello, World!")
+
+if __name__ == "__main__":
+    main()
+```
+Save and exit (Ctrl + X, then Y).
+
+Run to verify:
+```bash
+python3 app.py
+```
+
+### Step 2: Initialize Git & Create `.gitignore`
+```bash
+git init
 nano .gitignore
 ```
 Add:
@@ -48,75 +60,76 @@ venv/
 __pycache__/
 *.pyc
 ```
+Save and exit.
 
-### Step 5: Initialize Git and Commit 📌
+Stage and commit:
 ```bash
-git init
 git add .
 git commit -m "Initial commit"
 ```
 
-### Step 6: Create a GitHub Repository 📤
-1. Log in to GitHub.
-2. Click `+` > `New Repository`.
-3. Name it (e.g., `my-python-app`).
-4. Copy the repository URL.
-
-### Step 7: Connect Local Repo to GitHub 🌐
+### Step 3: Create & Connect GitHub Repository
 ```bash
-git remote add origin https://github.com/username/my-python-app.git
+git remote add origin https://github.com/saadhaniftaj/DevOps_lab2_app.git
+```
+Push changes:
+```bash
 git branch -M main
 git push -u origin main
 ```
 
-### Step 8: Verify on GitHub ✅
-Refresh your GitHub repository page to check if the files are uploaded.
-
-### Step 9: (Optional) Add a README 📖
-```bash
-nano README.md
-```
-Write a brief project description, commit, and push it:
-```bash
-git add README.md
-git commit -m "Added README"
-git push
-```
-
-### Step 10: (Optional) Set up a `requirements.txt` 📦
-If your project uses external libraries:
-```bash
-pip freeze > requirements.txt
-git add requirements.txt
-git commit -m "Added requirements file"
-git push
-```
+If authentication fails, use a personal access token instead of a password.
 
 ---
-## 🎬 Task 0: Netflix EDA
-- Take any Netflix movie dataset.
-- Apply **Exploratory Data Analysis (EDA)** & visualization techniques.
-- Deploy the dataset & analysis to GitHub.
-- Keep a **screenshot** of commands used during deployment.
 
----
-## 🌍 Task 1: Personal Website with GitHub Pages
-### Steps:
-1. Create a **new repository** named `username.github.io`.
-2. Add an `index.html` file for the homepage.
-3. (Optional) Add a `style.css` file for styling.
-4. Commit & push the files:
+## 🔹 Task 0: Netflix EDA Deployment
+Performed Exploratory Data Analysis (EDA) on a Netflix dataset and uploaded it to GitHub.
+
+1. Ran analysis in Jupyter Notebook.
+2. Saved results and visualizations.
+3. Pushed the project to GitHub:
    ```bash
    git add .
-   git commit -m "Added personal website files"
+   git commit -m "Added Netflix EDA"
    git push -u origin main
    ```
-5. Go to **Settings > Pages** and select the `main` branch.
-6. Your website will be live at `https://username.github.io` 🎉
 
 ---
-## 🤖 Task 2: Automate Deployment with GitHub Actions
-### Create a `.github/workflows/deploy.yml` file:
+
+## 🔹 Task 01: Hosting a Personal Website Using GitHub Pages
+
+1. Created a repository `saadhaniftaj.github.io` on GitHub.
+2. Created an `index.html` file:
+   ```bash
+   nano index.html
+   ```
+   Sample content:
+   ```html
+   <html>
+   <head><title>My Website</title></head>
+   <body><h1>Welcome to My Personal Website!</h1></body>
+   </html>
+   ```
+3. Added, committed, and pushed files:
+   ```bash
+   git add .
+   git commit -m "Added personal website"
+   git push -u origin main
+   ```
+4. Activated GitHub Pages in repository settings.
+
+Live URL: `https://saadhaniftaj.github.io`
+
+---
+
+## 🔹 Task 02: Automating Deployment with GitHub Actions
+
+### Step 1: Create `.github/workflows/deploy.yml`
+```bash
+mkdir -p .github/workflows
+nano .github/workflows/deploy.yml
+```
+Add the following:
 ```yaml
 name: Deploy Application
 
@@ -131,36 +144,41 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      
+
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
           python-version: '3.9'
-      
+
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-      
+
       - name: Run application
         run: |
           python app.py &
 ```
-### Deliverables 📌
-- GitHub repository with **Flask app** & `.yml` workflow file.
+
+### Step 2: Commit and Push
+```bash
+git add .
+git commit -m "Added GitHub Actions workflow"
+git push -u origin main
+```
+The application will now deploy automatically on every push.
 
 ---
-## 🎯 Git Cheat Sheet 🛠️
+
+## 🔹 Useful Git Commands
+
 | Command | Description |
 |---------|-------------|
-| `git fetch origin` | Fetches changes from the remote repository. |
-| `git status` | Shows the status of the local repository. |
-| `git log origin/main..main` | Shows commits not in the remote branch. |
-| `git diff origin/main` | Shows file differences. |
-| `git pull origin main` | Fetches and merges changes from the remote. |
-| `git branch -r` | Lists all remote branches. |
-| `git checkout -b new-branch origin/remote-branch` | Creates a local branch to track a remote branch. |
-| `git show commit-hash` | Shows changes made in a specific commit. |
+| `git status` | Shows the status of your local repository. |
+| `git log --oneline` | Displays commit history in a compact format. |
+| `git pull origin main` | Fetches and merges remote changes. |
 | `git remote -v` | Shows the remote repository URL. |
 
-🚀 **Happy Coding!** 🎉
+---
+
+🔥 **This repo documents my DevOps Lab journey!** 🚀
